@@ -56,7 +56,7 @@ class StoreTaskRequest extends FormRequest
             'due_date' => 'nullable|date|after:now',
             'assigned_to' => 'required|integer|exists:users,id',
             'depends_on' => 'integer|nullable|exists:tasks,id'
-        ];
+        ]; 
     }
 
     protected function failedValidation(Validator $validator)

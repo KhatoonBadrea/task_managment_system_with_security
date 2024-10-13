@@ -68,14 +68,15 @@ class TaskService
     public function create_task($data)
     {
         $user = JWTAuth::parseToken()->authenticate();
-       
+        $status = is_null(Arr::get($data, 'depends_on')) ? 'Open' : 'Blocked';
+
         try {
 
             $task = Task::create([
                 'title' => $data['title'],
                 'description' => $data['description'],
                 'type' => $data['type'],
-                'status' => 'open',
+                'status' => $status,
                 'priority' => $data['priority'],
                 'due_date' => null,
                 'created_by' => $user->id,
@@ -207,14 +208,16 @@ class TaskService
     public function update_status(Task $task, array $data)
     {
         try {
-
             $task->status = $data['status'] ?? $task->status;
             $task->save();
-            // event(new TaskStatusUpdatedEvent($task));
+    
+            event(new TaskStatusUpdatedEvent($task));
+    
             return $task;
         } catch (\Exception $e) {
             Log::error('Error in TaskService@update_status: ' . $e->getMessage());
             return $this->errorResponse('An error occurred: there is an error in the server', 500);
         }
     }
+    
 }

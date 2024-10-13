@@ -37,7 +37,7 @@ class updateStatusRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'status' => 'required|string|in:pending,in-progress,done', 
+            'status' => 'nullable|string|in:Open,In_Progress,Completed,Blocked',
 
         ];
     }

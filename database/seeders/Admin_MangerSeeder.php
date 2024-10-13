@@ -16,25 +16,25 @@ class Admin_MangerSeeder extends Seeder
         User::create([
             'name' => 'admin',
             'email' => 'admin@gmail.com',
-            'role' => 1,
+            'role_id' => 1,
             'password' => '12345678',
         ]);
         User::create([
             'name' => 'manager1',
             'email' => 'manager1@gmail.com',
-            'role' => 2,
+            'role_id' => 2,
             'password' => '12345678',
         ]);
         User::create([
             'name' => 'manager2',
             'email' => 'manager2@gmail.com',
-            'role' => 2,
+            'role_id' => 2,
             'password' => '12345678',
         ]);
         User::create([
             'name' => 'dev',
             'email' => 'dev@gmail.com',
-            'role' => 3,
+            'role_id' => 3,
             'password' => '12345678',
         ]);
     }
