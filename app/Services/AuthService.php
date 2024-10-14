@@ -15,6 +15,7 @@ class AuthService
 
     public function login(array $credentials)
     {
+
         if (!$token = auth()->attempt($credentials)) {
             return  $this->Unauthorized('Unauthorized');
         }
@@ -31,7 +32,7 @@ class AuthService
         $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
-            'password' => $data['password'], 
+            'password' => $data['password'],
         ]);
         return $this->registerResponse($user);
     }

@@ -10,6 +10,7 @@ use App\Http\Traits\ApiResponseTrait;
 // use App\Http\Requests\updateStatusRequest;
 use App\Http\Requests\Task\StoreTaskRequest;
 use App\Http\Requests\Task\UpdateTaskRequest;
+use App\Http\Requests\Task\updateTypeRequest;
 use App\Http\Requests\Task\updateStatusRequest;
 use App\Http\Requests\Task\updateAssignedRequest;
 
@@ -122,6 +123,20 @@ class TaskController extends Controller
 
         $newTask = $this->taskService->update_status($task, $validatedRequest);
 
-        return $this->successResponse($newTask, 'Task updated successfully.', 200);
+        return $this->successResponse($newTask, 'status updated successfully.', 200);
+    }
+     /**
+     * user can update the type for the task that assigned to him
+     * @param updateTypeRequest $request
+     * @param Task $task
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function updateType(updateTypeRequest $request, Task $task)
+    {
+        $validatedRequest = $request->validated();
+
+        $newTask = $this->taskService->update_type($task, $validatedRequest);
+
+        return $this->successResponse($newTask, 'type updated successfully.', 200);
     }
 }

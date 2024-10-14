@@ -45,4 +45,5 @@ Route::post('/tasks/{taskId}/attachments', [AtachmentController::class, 'store']
 Route::delete('/attachments/{id}', [AtachmentController::class, 'destroy']);
 
 Route::put('/tasks/{task}/status', [TaskController::class, 'updateStatus']);
+Route::put('/tasks/{task}/type', [TaskController::class, 'updateType']);
 

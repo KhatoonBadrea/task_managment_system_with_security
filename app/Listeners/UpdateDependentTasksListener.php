@@ -1,10 +1,11 @@
 <?php
 namespace App\Listeners;
 
-use App\Events\TaskStatusUpdatedEvent;
 use App\Models\Task;
-use Illuminate\Contracts\Queue\ShouldQueue;
+use App\Models\TaskStatusUpdate;
+use App\Events\TaskStatusUpdatedEvent;
 use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Contracts\Queue\ShouldQueue;
 
 class UpdateDependentTasksListener
 {
@@ -16,15 +17,27 @@ class UpdateDependentTasksListener
      */
     public function handle(TaskStatusUpdatedEvent $event)
     {
-        // الحصول على المهام المعتمدة على المهمة التي تم تحديثها
+        TaskStatusUpdate::create([
+            'task_id' => $event->task->id,
+            'status' => $event->task->status,
+            'type' => $event->task->type,
+        ]);
         $dependentTasks = Task::where('depends_on', $event->task->id)->get();
 
         foreach ($dependentTasks as $dependentTask) {
             if ($event->task->status == 'Completed') {
-                // إذا كانت المهمة الأصلية مكتملة، نحدث حالة المهام المعتمدة
+                $event->task->due_date = now();
                 $dependentTask->status = 'Open';
+                $dependentTask->depends_on = null;
                 $dependentTask->save();
+                $event->task->save();
             }
+            TaskStatusUpdate::create([
+                'task_id' => $dependentTask->id,
+                'status' => 'Open',
+                'type' => $dependentTask->type,
+            ]);
+            $dependentTask->save();
         }
     }
 }

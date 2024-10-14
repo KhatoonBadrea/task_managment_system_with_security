@@ -6,6 +6,7 @@ use App\Models\Task;
 use Illuminate\Support\Arr;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Illuminate\Support\Facades\Log;
+use App\Events\StatusUpdateLogEvent;
 use App\Http\Resources\TaskResource;
 use App\Http\Traits\ApiResponseTrait;
 use App\Events\TaskStatusUpdatedEvent;
@@ -212,6 +213,21 @@ class TaskService
             $task->save();
     
             event(new TaskStatusUpdatedEvent($task));
+            // event(new StatusUpdateLogEvent($task));
+    
+            return $task;
+        } catch (\Exception $e) {
+            Log::error('Error in TaskService@update_status: ' . $e->getMessage());
+            return $this->errorResponse('An error occurred: there is an error in the server', 500);
+        }
+    }
+    public function update_type(Task $task, array $data)
+    {
+        try {
+            $task->type = $data['type'] ?? $task->type;
+            $task->save();
+    
+            event(new StatusUpdateLogEvent($task));
     
             return $task;
         } catch (\Exception $e) {

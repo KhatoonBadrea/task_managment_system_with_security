@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('task_status_updates', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('task_id')->constrained('tasks', 'id');
+            $table->foreignId('task_id')->constrained('tasks')->cascadeOnDelete();
             $table->string('status');
             $table->string('type');
             $table->timestamps();

@@ -21,6 +21,9 @@ class EventServiceProvider extends ServiceProvider
         \App\Events\TaskStatusUpdatedEvent::class => [
             \App\Listeners\UpdateDependentTasksListener::class,
         ],
+        \App\Events\StatusUpdateLogEvent::class => [
+            \App\Listeners\HandleTaskStatusUpdate::class,
+        ],
     ];
 
     /**

@@ -31,7 +31,7 @@ class TaskSeeder extends Seeder
             'priority'=>'height',
             'created_by'=>1,
             'assigned_to'=>4,
-            'depends_on'=>1,
+            'depends_on'=>13,
         ]);
         Task::create([
             'title'=>'C',
@@ -41,7 +41,7 @@ class TaskSeeder extends Seeder
             'priority'=>'height',
             'created_by'=>1,
             'assigned_to'=>4,
-            'depends_on'=>1,
+            'depends_on'=>13,
         ]);
     }
 }

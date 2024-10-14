@@ -32,8 +32,8 @@ class Admin_MangerSeeder extends Seeder
             'password' => '12345678',
         ]);
         User::create([
-            'name' => 'dev',
-            'email' => 'dev@gmail.com',
+            'name' => 'developer',
+            'email' => 'developer@gmail.com',
             'role_id' => 3,
             'password' => '12345678',
         ]);

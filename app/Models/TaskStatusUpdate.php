@@ -12,6 +12,7 @@ class TaskStatusUpdate extends Model
     protected $fillable=[
         'task_id',
         'status',
+        'type',
     ];
     public function task(){
         return $this->belongsTo(Task::class);
