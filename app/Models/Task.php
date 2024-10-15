@@ -105,6 +105,12 @@ class Task extends Model
         return $query;
     }
 
+
+    public function scopeBlock($query)
+    {
+        return $query->where('status', 'Blocked');
+    }
+
     /**
      * Get the user to whom the task is assigned.
      *

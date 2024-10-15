@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\RoleController;
 use App\Http\Controllers\Api\TaskController;
 use App\Http\Controllers\Api\CommentController;
 use App\Http\Controllers\Api\AtachmentController;
+use App\Http\Controllers\Api\TaskStatusUpdateController;
 
 /*
 |--------------------------------------------------------------------------
@@ -46,4 +47,5 @@ Route::delete('/attachments/{id}', [AtachmentController::class, 'destroy']);
 
 Route::put('/tasks/{task}/status', [TaskController::class, 'updateStatus']);
 Route::put('/tasks/{task}/type', [TaskController::class, 'updateType']);
-
+Route::get('/reports/daily-tasks', [TaskStatusUpdateController::class, 'DialyReport']);
+Route::get('/tasks/blocked', [TaskController::class, 'getBlockedTasks']);

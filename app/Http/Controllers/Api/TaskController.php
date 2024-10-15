@@ -111,7 +111,7 @@ class TaskController extends Controller
         return $this->successResponse($newAssigne, 'Assigned_to updated successfully.', 200);
     }
 
-     /**
+    /**
      * user can update the status for the task that assigned to him
      * @param updateStatusRequest $request
      * @param Task $task
@@ -125,7 +125,7 @@ class TaskController extends Controller
 
         return $this->successResponse($newTask, 'status updated successfully.', 200);
     }
-     /**
+    /**
      * user can update the type for the task that assigned to him
      * @param updateTypeRequest $request
      * @param Task $task
@@ -138,5 +138,11 @@ class TaskController extends Controller
         $newTask = $this->taskService->update_type($task, $validatedRequest);
 
         return $this->successResponse($newTask, 'type updated successfully.', 200);
+    }
+
+    public function getBlockedTasks()
+    {
+        $tasks = Task::block()->get();
+        return $tasks;
     }
 }
