@@ -47,10 +47,10 @@ class CommentController extends Controller
         $comment = $this->commentService->getComment($commentId);
     
         if (!$comment) {
-            return $this->error(); // التعامل مع حالة الفشل
+            return $this->error(); 
         }
     
-        return response()->json($comment); // عرض التعليق كاستجابة JSON
+        return response()->json($comment); 
     }
     
 
@@ -63,10 +63,10 @@ class CommentController extends Controller
         $response = $this->commentService->updateComment($validationData, $commentId);
 
         if (!$response) {
-            return $this->error(); // التعامل مع حالة الفشل
+            return $this->error(); 
         }
 
-        return $this->success(); // التعامل مع حالة النجاح
+        return $this->success(); 
     }
 
 
@@ -78,10 +78,10 @@ class CommentController extends Controller
         $response = $this->commentService->deleteComment($commentId);
     
         if (!$response) {
-            return $this->error(); // التعامل مع حالة الفشل
+            return $this->error(); 
         }
     
-        return $this->success(); // التعامل مع حالة النجاح
+        return $this->success(); 
     }
     
 }
