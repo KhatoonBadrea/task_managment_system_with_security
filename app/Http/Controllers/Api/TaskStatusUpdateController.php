@@ -2,17 +2,23 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
-use App\Models\TaskStatusUpdate;
 use Illuminate\Http\Request;
+use App\Jobs\DailyReportService;
+use App\Models\TaskStatusUpdate;
+use App\Http\Controllers\Controller;
 
 class TaskStatusUpdateController extends Controller
 {
-    public function DialyReport()
+    public function dailyReport()
     {
-        $tasks = TaskStatusUpdate::whereDate('created_at', today())->get();
-        // dd($task);
-        return $tasks;
+        $tasks = TaskStatusUpdate::select('task_id','status','type')->whereDate('created_at', today())->get();
+
+        DailyReportService::dispatch($tasks);
+
+         return response()->json([
+            'status' => 'success',
+            'data' => $tasks,
+        ], 200);
     }
 
   

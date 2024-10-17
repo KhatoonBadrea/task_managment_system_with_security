@@ -5,61 +5,35 @@ namespace App\Http\Controllers\Api;
 use App\Models\Task;
 use App\Models\Attachment;
 use Illuminate\Http\Request;
+use App\Services\TaskService;
+use App\Services\AttachmentService;
+use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 
 class AtachmentController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    protected $attachmentService;
+
+    public function __construct(AttachmentService $attachmentService)
     {
-        //
+        $this->attachmentService = $attachmentService;
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request, Task $task)
+    public function uploadAttachment(Request $request, $taskId)
     {
-        if ($request->hasFile('attachment')) {
-            $file = $request->file('attachment');
-
-            $path = $file->store('attachments', 'public');
-
-            $task->attachments()->create([
-                'file_path' => $path
+        try {
+            $this->validate($request, [
+                'attachment' => 'required|file|max:5120', 
             ]);
 
-            return response()->json(['message' => 'Attachment uploaded successfully!', 'path' => $path], 201);
+            $file = $request->file('attachment');
+            $this->attachmentService->uploadAttachment($taskId, $file);
+
+            return response()->json(['message' => 'File uploaded successfully.']);
+        } catch (\Exception $e) {
+            Log::error('Error in AtachmentController@uploadAttachment: ' . $e->getMessage());
+            return response()->json(['error' => 'File upload failed.'], 500);
         }
-
-        return response()->json(['error' => 'Please upload a file.'], 400);
     }
-
-
-    public function destroy($id)
-    {
-        $attachment = Attachment::find($id);
-        $attachment->delete();
-
-        return response()->json(['message' => 'Attachment deleted successfully']);
-    }
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
     
 }

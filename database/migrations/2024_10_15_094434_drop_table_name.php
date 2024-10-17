@@ -11,13 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('attachments', function (Blueprint $table) {
-            $table->id();
-            $table->string('file_name');
-            $table->string('file_path');
-            $table->integer('file_size');
-            $table->morphs('attachable'); 
-            $table->timestamps();
+        Schema::table('attachments', function (Blueprint $table) {
+            //
         });
     }
 
@@ -26,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('attachments');
+        Schema::table('attachments', function (Blueprint $table) {
+            //
+        });
     }
 };

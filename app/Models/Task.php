@@ -6,10 +6,12 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Task extends Model
 {
     use HasFactory;
+    use SoftDeletes;
     protected $fillable = [
         'title',
         'description',
@@ -22,7 +24,7 @@ class Task extends Model
         'depends_on'
     ];
 
-
+    protected $dates = ['deleted_at'];
 
     public function getDueDateAttribute($value)
     {
@@ -81,13 +83,11 @@ class Task extends Model
 
         return $query;
     }
-    // Scope for filtering by assigned user name
+
     public function scopeAssignedToUser($query, $userName)
     {
         if ($userName) {
-            return $query->whereHas('assignedToUser', function ($q) use ($userName) {
-                $q->where('name', 'like', "%$userName%");
-            });
+            return $query->where('assigned_to',$userName);
         }
         return $query;
     }

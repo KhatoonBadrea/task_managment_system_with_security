@@ -36,16 +36,22 @@ Route::group([
 // Routes for admin: full CRUD access to users
 Route::group(['middleware' => ['auth:api', 'admin']], function () {
     Route::apiResource('roles', RoleController::class);
+    Route::get('tarshed', [TaskController::class, 'get_tarched_tasks']);
+    Route::get('restore/{id}', [TaskController::class, 'restoreTask']);
 });
+Route::group(['middleware' => ['auth:api', 'admin']], function () {
+
 Route::apiResource('tasks', TaskController::class);
 Route::put('tasks/{task}/assigne', [TaskController::class, 'update_assigned_to']);
 
 Route::apiResource('comments', CommentController::class);
 
-Route::post('/tasks/{taskId}/attachments', [AtachmentController::class, 'store']);
-Route::delete('/attachments/{id}', [AtachmentController::class, 'destroy']);
+// Route::post('/tasks/{taskId}/attachments', [AtachmentController::class, 'store']);
+// Route::delete('/attachments/{id}', [AtachmentController::class, 'destroy']);
 
 Route::put('/tasks/{task}/status', [TaskController::class, 'updateStatus']);
 Route::put('/tasks/{task}/type', [TaskController::class, 'updateType']);
-Route::get('/reports/daily-tasks', [TaskStatusUpdateController::class, 'DialyReport']);
+Route::get('/reports/daily-tasks', [TaskStatusUpdateController::class, 'dailyReport']);
 Route::get('/tasks/blocked', [TaskController::class, 'getBlockedTasks']);
+Route::post('/tasks/{id}/attachments', [AtachmentController::class, 'uploadAttachment']);
+});
